@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funong.funong.mapper.CiviDao">
+  <resultMap id="BaseResultMap" type="com.funong.funong.pojo.Civi">
+    <result column="civi_name" jdbcType="VARCHAR" property="civiName" />
+    <result column="civi_id" jdbcType="INTEGER" property="civiId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.funong.funong.pojo.Civi">
+    insert into civi (civi_name, civi_id)
+    values (#{civiName,jdbcType=VARCHAR}, #{civiId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.funong.funong.pojo.Civi">
+    insert into civi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="civiName != null">
+        civi_name,
+      </if>
+      <if test="civiId != null">
+        civi_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="civiName != null">
+        #{civiName,jdbcType=VARCHAR},
+      </if>
+      <if test="civiId != null">
+        #{civiId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

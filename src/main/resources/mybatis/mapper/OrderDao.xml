@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funong.funong.mapper.OrderDao">
+  <resultMap id="BaseResultMap" type="com.funong.funong.pojo.Order">
+    <id column="orderId" jdbcType="INTEGER" property="orderid" />
+    <result column="totalPrice" jdbcType="DECIMAL" property="totalprice" />
+    <result column="customerId" jdbcType="INTEGER" property="customerid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="orderStatus" jdbcType="VARCHAR" property="orderstatus" />
+    <result column="orderConf" jdbcType="VARCHAR" property="orderconf" />
+    <result column="orderType" jdbcType="VARCHAR" property="ordertype" />
+    <result column="representId" jdbcType="VARCHAR" property="representid" />
+    <result column="orderAddress" jdbcType="VARCHAR" property="orderaddress" />
+    <result column="orderPhone" jdbcType="VARCHAR" property="orderphone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    orderId, totalPrice, customerId, createTime, updateTime, orderStatus, orderConf, 
+    orderType, representId, orderAddress, orderPhone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from funong.order
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </select>
+  <select id="getOrderByCustomerIdType" parameterType="com.funong.funong.backPojo.BackTypeIndex" resultMap="BaseResultMap">
+    select * from funong.order where customerId = #{id} and orderstatus = #{type}
+     limit  #{start},#{end};
+  </select>
+  <select id="getOrderByRepresentIdType" parameterType="com.funong.funong.backPojo.BackTypeIndex" resultMap="BaseResultMap">
+    select * from funong.order where  representId=#{id} and  orderStatus = #{type}
+  limit  #{start},#{end};
+  </select>
+  <select id="getNumCustomerIdType" parameterType="com.funong.funong.backPojo.BackTypeIndex" resultType="int">
+    select count(*) from funong.order where customerId=#{id} and orderStatus = #{type};
+  </select>
+  <select id="getNumRepresentIdType" parameterType="com.funong.funong.backPojo.BackTypeIndex" resultType="int">
+    select count(*) from funong.order where representId=#{id} and orderStatus = #{type};
+  </select>
+    <select id="getOrderByOrderType" resultMap="BaseResultMap" parameterType="com.funong.funong.backPojo.BackTypeIndex">
+      select * from funong.order where orderStatus = #{type}
+      limit  #{start},#{end};
+    </select>
+  <select id="getNumAll" resultType="int">
+    select count(*) from funong.order;
+  </select>
+  <select id="getOrderByRepresentId" resultMap="BaseResultMap" parameterType="com.funong.funong.backPojo.BackTypeIndex">
+      select * from funong.order where representId = #{type}
+      limit  #{start},#{end};
+    </select>
+  <select id="getAllOrder" resultMap="BaseResultMap"  parameterType="com.funong.funong.backPojo.BackTypeIndex" >
+    select * from funong.order
+    limit  #{start},#{end};
+  </select>
+  <select id="getNumCustomer" parameterType="int" resultType="java.lang.Integer">
+    select count(*) from funong.order where customerId =#{customerId};
+  </select>
+  <select id="getNumRepresent" parameterType="int" resultType="java.lang.Integer">
+    select count(*) from funong.order where representId =#{representId};
+  </select>
+  <select id="getNumType" parameterType="String" resultType="java.lang.Integer">
+    select count(*) from funong.order where orderStatus = #{orderType};
+  </select>
+  <select id="getOrderByCustomerId" resultMap="BaseResultMap"  parameterType="com.funong.funong.backPojo.BackTypeIndex" >
+    select * from funong.order where customerId = #{type};
+  </select>
+    <select id="getOrderWhichCreate" resultType="com.funong.funong.pojo.Order" parameterType="int">
+      select * from funong.order where customerId=#{customerId} and orderStatus='create';
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from funong.order
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert"  keyProperty="orderid"  keyColumn="orderId" parameterType="com.funong.funong.pojo.Order" useGeneratedKeys="true">
+    insert into funong.order (totalPrice, customerId, createTime,
+      updateTime, orderStatus, orderConf, 
+      orderType, representId, orderAddress, orderPhone)
+    values (#{totalprice,jdbcType=DECIMAL}, #{customerid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{orderstatus,jdbcType=VARCHAR}, #{orderconf,jdbcType=VARCHAR}, 
+      #{ordertype,jdbcType=VARCHAR},#{representid},#{orderaddress},#{orderphone});
+  </insert>
+  <insert id="insertSelective" keyColumn="orderId" keyProperty="orderid" parameterType="com.funong.funong.pojo.Order" useGeneratedKeys="true">
+    insert into funong.order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="totalprice != null">
+        totalPrice,
+      </if>
+      <if test="customerid != null">
+        customerId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="orderstatus != null">
+        orderStatus,
+      </if>
+      <if test="orderconf != null">
+        orderConf,
+      </if>
+      <if test="ordertype != null">
+        orderType,
+      </if>
+      <if test="representid != null">
+        representId,
+      </if>
+      <if test="orderaddress != null">
+        orderAddress,
+      </if>
+      <if test="orderphone != null">
+        orderPhone,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="totalprice != null">
+        #{totalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="customerid != null">
+        #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderstatus != null">
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderconf != null">
+        #{orderconf,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null">
+        #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="representid != null">
+        #{representid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderaddress != null">
+        #{orderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderphone != null">
+        #{orderphone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funong.funong.pojo.Order">
+    update funong.order
+    <set>
+      <if test="totalprice != null">
+        totalPrice = #{totalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="customerid != null">
+        customerId = #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderstatus != null">
+        orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderconf != null">
+        orderConf = #{orderconf,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null">
+        orderType = #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="representid != null">
+        representId = #{representid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderaddress != null">
+        orderAddress = #{orderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderphone != null">
+        orderPhone = #{orderphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funong.funong.pojo.Order">
+    update funong.order
+    set totalPrice = #{totalprice,jdbcType=DECIMAL},
+      customerId = #{customerid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      orderConf = #{orderconf,jdbcType=VARCHAR},
+      orderType = #{ordertype,jdbcType=VARCHAR},
+        representId = #{represent,jdbcType=VARCHAR},
+        orderAddress = #{orderaddress},
+        orderPhone = #{orderphone}
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+</mapper>

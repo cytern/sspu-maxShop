@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funong.funong.mapper.ProvinceDao">
+  <resultMap id="BaseResultMap" type="com.funong.funong.pojo.Province">
+    <id column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="civi_id" jdbcType="INTEGER" property="civiId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    province_id, province_name, civi_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from province
+    where province_id = #{provinceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from province
+    where province_id = #{provinceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="province_id" keyProperty="provinceId" parameterType="com.funong.funong.pojo.Province" useGeneratedKeys="true">
+    insert into province (province_name, civi_id)
+    values (#{provinceName,jdbcType=VARCHAR}, #{civiId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="province_id" keyProperty="provinceId" parameterType="com.funong.funong.pojo.Province" useGeneratedKeys="true">
+    insert into province
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="civiId != null">
+        civi_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="civiId != null">
+        #{civiId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funong.funong.pojo.Province">
+    update province
+    <set>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="civiId != null">
+        civi_id = #{civiId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where province_id = #{provinceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funong.funong.pojo.Province">
+    update province
+    set province_name = #{provinceName,jdbcType=VARCHAR},
+      civi_id = #{civiId,jdbcType=INTEGER}
+    where province_id = #{provinceId,jdbcType=INTEGER}
+  </update>
+</mapper>
