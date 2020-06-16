@@ -21,7 +21,11 @@ public class LoginInterceptor implements WebMvcConfigurer {
         //注册TestInterceptor拦截器
         InterceptorRegistration registration = registry.addInterceptor(allInterceptor);
         registration.addPathPatterns("/**");                      //所有路径都被拦截
-        registration.excludePathPatterns(                         //添加不拦截路径
+        registration.excludePathPatterns(
+                "/swagger-ui.html",
+                "/swagger-resources/**",
+                "/druid/**",
+                //添加不拦截路径
                 "你的登陆路径",            //登录
                 "/**/*.html",            //html静态资源
                 "/**/*.js",              //js静态资源
@@ -32,7 +36,12 @@ public class LoginInterceptor implements WebMvcConfigurer {
         InterceptorRegistration registration2 = registry.addInterceptor(customerInterceptor);
         registration2.addPathPatterns("/**");
         registration2.excludePathPatterns(
-                "/page/account_login",            //登录
+                "/swagger-ui.html",
+                "/swagger-resources/**",
+                "/druid/**",
+                "/page/account_login",
+                "/everyOne/**", //登录
+                //登录
                 "/login/**",
                 "/**/*.html",            //html静态资源
                 "/**/*.js",              //js静态资源

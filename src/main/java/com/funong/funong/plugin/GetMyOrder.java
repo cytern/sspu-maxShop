@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,42 @@ public class GetMyOrder {
                 Customer customer = customerService.getCustomerByUserId(userId);
                 backTypeIndex.setType(String.valueOf(customer.getCustomerId()));
                Order order = orderDao.getOrderWhichCreate(customer.getCustomerId());
-               BackOrderOne backOrder = getOneBackOrder(order);
+                try {
+                    if (order.getOrderid() == 0){
+                        Order order1 = new Order();
+                        order1.setCustomerid(customer.getCustomerId());
+                        order1.setTotalprice(new BigDecimal(0));
+                        order1.setUpdatetime(changeDate.getDate());
+                        order1.setOrderstatus("create");
+                        order1.setOrdertype("shop");
+                        orderDao.insertSelective(order1);
+                        BackOrderOne backOrder = getOneBackOrder(order1);
+                        int pageMax = backOrder.getGoodorders().size();
+
+                        hashMap.put("order", backOrder);
+                        hashMap.put("pageMax", pageMax);
+                        hashMap.put("customer", customer);
+
+                        return hashMap;
+                    }
+                } catch (Exception e) {
+                    Order order1 = new Order();
+                    order1.setCustomerid(customer.getCustomerId());
+                    order1.setTotalprice(new BigDecimal(0));
+                    order1.setUpdatetime(changeDate.getDate());
+                    order1.setOrderstatus("create");
+                    order1.setOrdertype("shop");
+                    orderDao.insertSelective(order1);
+                    BackOrderOne backOrder = getOneBackOrder(order1);
+                    int pageMax = backOrder.getGoodorders().size();
+
+                    hashMap.put("order", backOrder);
+                    hashMap.put("pageMax", pageMax);
+                    hashMap.put("customer", customer);
+
+                    return hashMap;
+                }
+                BackOrderOne backOrder = getOneBackOrder(order);
                 int pageMax = backOrder.getGoodorders().size();
 
                 hashMap.put("order", backOrder);

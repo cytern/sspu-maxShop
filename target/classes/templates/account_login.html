@@ -153,10 +153,16 @@
 						<h2>New Customers</h2>
 						<p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
 					</div>
-					<div class="buttons-set">
-						<a class="colors-btn" title="Create an Account" href="account_create.html"><span><span>Create an Account</span></span></a>
-						<div class="clear"></div>
-					</div>
+                    <div class="register">
+                         注册一个新账号~注册后请通过邮箱激活您的账号<br>
+                        <p th:if="${msg}" th:text="${msg}" style="color: red"></p>
+                        <form action="/everyOne/addCustomersss" method="get">
+                            <input placeholder="用户名" name="userName"/>
+                            <input placeholder="密码" name="password"/>
+                            <input placeholder="邮箱" name="email"/>
+                           <input type="submit" value="注册">
+                        </form>
+                    </div>
 				</div>
 				<div class="col-2 registered-users">
 					<div class="content">

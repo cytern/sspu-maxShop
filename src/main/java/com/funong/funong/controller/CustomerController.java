@@ -4,7 +4,9 @@ import com.funong.funong.service.CustomerService;
 import com.funong.funong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
+@ApiIgnore
 @RestController
 public class CustomerController {
     @Autowired

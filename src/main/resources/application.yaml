@@ -29,10 +29,24 @@ spring:
   redis:
     port: 6379
     host: localhost
+  mail:
+    host: smtp.qq.com
+    username: 2477185748@qq.com
+    password: hglseafxjnexdhhb
+    default-encoding: utf-8
+    port: 587
+    properties:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+
 
 mybatis:
   type-aliases-package: com.funong.funong.pojo
   mapper-locations: classpath:mybatis/mapper/*.xml
+
 
 
 

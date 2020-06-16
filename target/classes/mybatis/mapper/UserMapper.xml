@@ -14,7 +14,7 @@
         select * from funong.user where userId=#{userId};
     </select>
     <select id="getUserByName" resultType="com.funong.funong.pojo.User">
-        select * from funong.user where userName = #{userName};
+        select * from funong.user where userName = #{userName} and userStatus = 'live';
     </select>
     <select id="getAllUser" resultType="com.funong.funong.pojo.User">
         select * from funong.user;

@@ -16,6 +16,8 @@ import com.funong.funong.service.CustomerService;
 import com.funong.funong.service.TokenService;
 import com.funong.funong.service.UserService;
 import com.sun.org.apache.xpath.internal.operations.Or;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(value = "订单类")
 @RestController
 public class OrderController {
     @Autowired
@@ -119,6 +121,7 @@ public class OrderController {
 
     }
     //顾客查询
+    @ApiOperation(value = "查询顾客订单")
     @GetMapping("customer/getCustomerOrder")
     public HashMap<Object, Object> getCustomerOrder(BackTypeIndex backTypeIndex) {
         HashMap<Object, Object> hashMap = new HashMap<>();
@@ -348,7 +351,7 @@ public class OrderController {
         hashMap.put("goodOrder",goodorders);
         return hashMap;
     }
-
+     @ApiOperation("添加商品")
     @PostMapping(value = "customer/addOrder",produces = "application/json;charset=UTF-8")
     public HashMap<Object,Object> addOrder(@RequestBody String json){
 

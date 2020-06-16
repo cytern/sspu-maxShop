@@ -4,6 +4,8 @@ import com.funong.funong.mapper.ImgDao;
 import com.funong.funong.plugin.ChangeDate;
 import com.funong.funong.plugin.GetImgUrl;
 import com.funong.funong.pojo.Img;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
-
+@Api("图片处理")
 @RestController
 public class FileController {
     private Logger logger = LoggerFactory.getLogger(FileController.class);
@@ -54,7 +56,7 @@ public class FileController {
         hashMap.put("fileUrl",img.getImgUrl());
         return hashMap;
     }
-
+     @ApiOperation("获取图片")
     @RequestMapping("everyone/downLoad/{fileName:.+}")
     public String downLoads(HttpServletResponse response, HttpServletRequest request, @PathVariable("fileName") String fileName) throws IOException {
 //        String path = "/export/data/img";

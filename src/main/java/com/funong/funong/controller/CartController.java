@@ -10,6 +10,9 @@ import com.funong.funong.pojo.Goodorder;
 import com.funong.funong.pojo.Order;
 import com.funong.funong.pojo.User;
 import com.funong.funong.service.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.print.attribute.standard.MediaSize;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +30,7 @@ import java.util.List;
  * @Author: cytern
  * @Date: 2020/5/26 10:56
  */
+@Api("购物车功能")
 @Controller
 public class CartController {
     @Autowired
@@ -42,6 +47,8 @@ public class CartController {
     ChangeDate changeDate = new ChangeDate();
     @Autowired
     GetBannerData getBannerData = new GetBannerData();
+    @ApiOperation(value = "添加购物车")
+    @ApiImplicitParam(name = "goodid",value = "商品id")
     @RequestMapping("addCart/{goodid}")
     public String addCart(Model model, HttpSession session, @PathVariable int goodid){
         Customer customer = (Customer)session.getAttribute("customer");
@@ -75,7 +82,8 @@ public class CartController {
         }
         return "redirect:/page/index";
     }
-
+    @ApiOperation("移除购物车")
+    @ApiImplicitParam(value = "商品订单id",name = "goodOrderId")
     @RequestMapping("removeCart/{goodOrderid}")
     public String removeCart(Model model,HttpSession session,@PathVariable int goodOrderid){
         Goodorder goodorder = goodorderDao.selectByPrimaryKey(goodOrderid);

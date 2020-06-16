@@ -4,12 +4,14 @@ import com.funong.funong.backPojo.BackPageIndex;
 import com.funong.funong.backPojo.BackTypeIndex;
 import com.funong.funong.pojo.Good;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
 @Repository
+@Cacheable(value = "good", keyGenerator = "keyGenerator")
 public interface GoodDao {
     int deleteByPrimaryKey(Integer goodid);
 

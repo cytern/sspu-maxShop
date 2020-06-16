@@ -9,6 +9,9 @@ import com.funong.funong.plugin.GetPageIndex;
 import com.funong.funong.plugin.JundgeCan;
 import com.funong.funong.pojo.*;
 import com.funong.funong.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
+@Api(value = "商品处理")
 @RestController
 public class GoodController {
     @Autowired
@@ -35,7 +38,8 @@ public class GoodController {
     private ImgDao imgDao;
     JundgeCan jundgeCan = new JundgeCan();
     ChangeDate changeDate = new ChangeDate();
-
+    @ApiOperation(value = "分页获取商品")
+    @ApiImplicitParam(name = "pageIndex",value = "第几页")
     @GetMapping("everyOne/getGood/{pageIndex}")
     public List<Good> getAllGood(@PathVariable int pageIndex) {
         GetPageIndex getPageIndex = new GetPageIndex();
@@ -43,7 +47,8 @@ public class GoodController {
         List<Good> goods = goodDao.getAllGood(backPageIndex);
         return goods;
     }
-
+    @ApiOperation(value = "分页分类获取商品")
+    @ApiImplicitParam(name = "type",value = "分类")
     @GetMapping("everyOne/getTypeGood/{pageIndex}/{type}")
     public List<Good> getTypeGood(@PathVariable int pageIndex, @PathVariable String type) {
         GetPageIndex getPageIndex = new GetPageIndex();
@@ -55,13 +60,13 @@ public class GoodController {
         List<Good> goods = goodDao.getGood(backTypeIndex);
         return goods;
     }
-
+    @ApiOperation(value = "获取所有分类")
     @GetMapping("everyOne/getTypes")
     public List<Type> getAllType() {
         List<Type> types = typeDao.getAllType();
         return types;
     }
-
+    @ApiOperation(value = "总共多少叶")
     @GetMapping("everyOne/getGoodPage")
     public int getPage() {
         return goodDao.getNum() / 10 + 1;
@@ -101,7 +106,7 @@ public class GoodController {
         }
         return goods;
     }
-
+@ApiOperation(value = "获取推荐商品")
     @GetMapping("everyOne/getALLAdvice")
     private List<Advice> getAllAdvice() {
         return adviceDao.getAllAdvice();

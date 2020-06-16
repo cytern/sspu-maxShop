@@ -9,13 +9,14 @@ import com.funong.funong.pojo.*;
 import com.funong.funong.service.CustomerService;
 import com.funong.funong.service.UserService;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-
+@ApiOperation(value = "用户类")
 @RestController
 public class UserController {
     @Autowired
@@ -31,6 +32,7 @@ public class UserController {
     @Autowired
     private RepresentDao representDao;
     ChangeDate changeDate =new ChangeDate();
+    @ApiOperation(value ="创建用户")
     @PostMapping("everyOne/addUser")
     public HashMap<Object,Object> addUser(User user){
         HashMap<Object,Object> hashMap =new HashMap<>();
@@ -72,6 +74,7 @@ public class UserController {
         hashMap.put("success","添加成功");
         return hashMap;
     }
+    @ApiOperation("是否重名")
     @GetMapping("everyOne/hasSameName/{userName}")
     public boolean hasSameName(@PathVariable String userName){
         User user = userService.getUserByName(userName);

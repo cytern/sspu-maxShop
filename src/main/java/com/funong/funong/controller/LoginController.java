@@ -10,6 +10,7 @@ import com.funong.funong.pojo.*;
 import com.funong.funong.service.CustomerService;
 import com.funong.funong.service.TokenService;
 import com.funong.funong.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
-
+@Api(value = "登录类")
 @Controller
 @RequestMapping("login/")
 public class LoginController {

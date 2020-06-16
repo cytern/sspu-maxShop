@@ -6,6 +6,7 @@ import com.funong.funong.mapper.*;
 import com.funong.funong.plugin.*;
 import com.funong.funong.pojo.*;
 import com.funong.funong.service.UserService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+@Api(value = "页面分发器")
 @Controller
 public class PageController {
     @Autowired
@@ -49,7 +50,9 @@ public class PageController {
 
     GetImgUrl getImgUrl = new GetImgUrl();
     private HashMap<Object, Object> hashMap;
-
+@ApiOperation(value = "主页分发器",notes = "同时具备初始购物车生成功能")
+@ApiResponses({@ApiResponse(code = 200,message = "success")})
+@ApiImplicitParams({@ApiImplicitParam(value ="购物车",name = "cart"),@ApiImplicitParam(value = "购物车商品数量",name = "maxcount"),@ApiImplicitParam(value = "推荐商品系统" ,name = "adviceGood")})
     @RequestMapping({"/","/page/index"})
     public String index(Model model, HttpSession session) {
         BackPageIndex backPageIndex =new BackPageIndex();
@@ -81,7 +84,8 @@ public class PageController {
         model.addAttribute("adviceList",adviceGood);
         return "index";
     }
-
+    @ApiOperation(value = "分类查询商品")
+    @ApiImplicitParam(name = "type",value = "类型")
     @RequestMapping("/page/category/{type}")
     public String shopBy(Model model, HttpSession session, @PathVariable int type)
     {
@@ -99,6 +103,7 @@ public class PageController {
         model = getType.getType(model);
         return "category";
     }
+    @ApiOperation(value = "查询全部商品")
     @RequestMapping("/page/categoryNone")
     public String shopBy123(Model model, HttpSession session)
     {
@@ -145,6 +150,7 @@ public class PageController {
         model = getType.getType(model);
         return "contact_us";
     }
+    @ApiOperation(value = "登录页面")
     @RequestMapping("/page/account_login")
     public String login(Model model,HttpSession session){
         model = getType.getType(model);
@@ -162,6 +168,7 @@ public class PageController {
         model = getType.getType(model);
         return "404_error";
     }
+    @ApiOperation(value = "购物车页面")
     @RequestMapping("/page/cart")
     public String cart(Model model,HttpSession session){
         model = getBannerData.getBannerData(model,session);
@@ -169,6 +176,7 @@ public class PageController {
         model = getType.getType(model);
         return "cart";
     }
+    @ApiOperation(value = "登出")
     @RequestMapping("/logout")
     public String logout(Model model,HttpSession session){
         session.invalidate();
